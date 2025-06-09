@@ -18,7 +18,7 @@ const ClientList: React.FC = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "my_task"));
+        const querySnapshot = await getDocs(collection(db, "clients"));
         const clientsData: Client[] = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...(doc.data() as Omit<Client, "id">),
