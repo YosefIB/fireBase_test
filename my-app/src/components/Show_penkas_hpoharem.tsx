@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 
 type Person = {
   id: string;
-  name?: string;
-  idNumber?: string;
+  אב?: string;
+  פרטי?: string;
+  משפחה?: string;
+  תעודת_זהות?: string;
 };
 
 const Show_penkas_hpoharem = () => {
@@ -26,7 +28,7 @@ const Show_penkas_hpoharem = () => {
     <ul>
       {people.map((person) => (
         <li key={person.id}>
-          {person.name} - {person.idNumber}
+          <p style={{fontSize:"30px"}}>פרטי: {person.פרטי} אב: {person.אב} משפחה: {person.משפחה} ת.ז: {person.תעודת_זהות}</p>
         </li>
       ))}
     </ul>
