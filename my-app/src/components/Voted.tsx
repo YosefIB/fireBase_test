@@ -11,7 +11,7 @@ type Person = {
   הצביע?: boolean;
 };
 
-const Show_penkas_hpoharem = () => {
+const Voted = () => {
   const [people, setPeople] = useState<Person[]>([]);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Show_penkas_hpoharem = () => {
 
   return (
     <>
-    <h1 style={{textAlign:"center"}}>פנקס הבוחרים</h1>
+    <h1 style={{textAlign:"center"}}>אנשים שהצביעו</h1>
     <ul>
       {people.map((person) => (
         <li key={person.id}>
@@ -39,4 +39,4 @@ const Show_penkas_hpoharem = () => {
   );
 };
 
-export default Show_penkas_hpoharem;
+export default Voted;
