@@ -13,13 +13,15 @@ type Person = {
 
 const Show_penkas_hpoharem = () => {
   const [people, setPeople] = useState<Person[]>([]);
+  const [totalVotes, setTotalVotes] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const snapshot = await getDocs(collection(db, "people2"));
+      const snapshot = await getDocs(collection(db, "Penkas_ktan_lpdekot"));
       console.log(snapshot);
       const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setPeople(list);
+      setTotalVotes(list.length);
     };
 
     fetchData();
@@ -28,6 +30,7 @@ const Show_penkas_hpoharem = () => {
   return (
     <>
     <h1 style={{textAlign:"center"}}>פנקס הבוחרים</h1>
+    <p>מספר הבוחרים בפנקס: {totalVotes}</p>
     <ul>
       {people.map((person) => (
         <li key={person.id}>

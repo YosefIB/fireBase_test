@@ -37,7 +37,8 @@ const UploadFile: React.FC = () => {
   };
 
   const uploadToFirebase = async (data: any) => {
-    const collectionRef = collection(db, "people2");
+    // Penkas_hpoharem_2018
+    const collectionRef = collection(db, "Penkas_ktan_lpdekot"); // שנה את השם של האוסף לפי הצורך
     for (const item of data) {
       await addDoc(collectionRef, item);
     }
@@ -47,6 +48,7 @@ const UploadFile: React.FC = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8} className="text-center">
           <h1 className="display-4">שלום</h1>
+          <p>תעלה את פנקס הבוחרים הכי עדכני</p>
           <input
             type="file"
             accept=".xlsx, .xls, .csv"

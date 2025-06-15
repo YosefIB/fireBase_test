@@ -11,6 +11,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import UploadFile from "./components/UploadFile";
 import Voted from "./components/Voted";
+import Main from "./components/Main";
+import AovdeKalpi from "./components/AovdeKalpi";
 
 function App() {
 
@@ -29,6 +31,7 @@ function App() {
                 <Nav.Link href="/penkas">פנקס הבוחרים</Nav.Link>
                 <Nav.Link href="/upload-file">העלאת קובץ</Nav.Link>
                 <Nav.Link href="/voted">אנשים שהצביעו</Nav.Link>
+                <Nav.Link href="/AovdeKalpi">עובדי קלפי</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -41,7 +44,8 @@ function App() {
             <Route path="/penkas" element={<Show_penkas_hpoharem />} />
             <Route path="/upload-file" element={<UploadFile />} />
             <Route path="/voted" element={<Voted />} />
-            <Route path="/" element={<ClientList />} />
+            <Route path="/AovdeKalpi" element={<AovdeKalpi />} />
+            <Route path="/" element={<Main />} />
 
           </Routes>
         </Container>
