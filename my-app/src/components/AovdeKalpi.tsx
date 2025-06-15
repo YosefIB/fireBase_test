@@ -42,18 +42,27 @@ const AovdeKalpi = () => {
   useEffect(() => {
     const fetchData = async () => {
       const snapshot = await getDocs(collection(db, "Penkas_ktan_lpdekot"));
-      const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Person[];
+      const list = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Omit<Person, "id">),
+      })) as Person[];
       setAllPeople(list);
       setPeople(list);
       setTotalVotes(list.length);
     };
 
-    fetchData();
+    // הפעלת fetchData כל שנייה
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+
+    // ניקוי הטיימר כשמרכיב מתפרק
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>פנקס הבוחרים</h1>
+      <h1 style={{ textAlign: "center" }}>עובדי קלפי</h1>
       <p>חפש לפי ת.ז של הבוחר</p>
       <input
         type="text"
@@ -67,15 +76,15 @@ const AovdeKalpi = () => {
           <li key={person.id}>
             <p style={{ fontSize: "15px" }}>
               {person.first_name} {person.father_name} {person.family_name} ת.ז: {person.id_person}{" "}
-           </p>
+            </p>
             <button
               onClick={() => toggleVote(person.id, person.vote)}
               style={{ fontSize: "16px", marginBottom: "10px", marginRight: "30px" }}
             >
               שנה הצבעה
             </button>
-            <strong>{person.vote? "✅ הצביע" : "❌ לא הצביע"}</strong>
-             <p>-------------------------------------------------</p>
+            <strong>{person.vote ? "✅ הצביע" : "❌ לא הצביע"}</strong>
+            <p>-------------------------------------------------</p>
           </li>
         ))}
       </ul>
