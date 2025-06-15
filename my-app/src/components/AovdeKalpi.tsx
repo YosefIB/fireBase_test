@@ -24,7 +24,7 @@ const AovdeKalpi = () => {
     setPeople(filteredPeople);
   };
 
-  const toggleVote = async (personId: string, currentVote?: boolean) => {
+  const toggleVote = async (personId: string, currentVote?: boolean, תז?:string) => {
     const newVote = !currentVote;
     const personRef = doc(db, "Penkas_ktan_lpdekot", personId);
 
@@ -78,7 +78,7 @@ const AovdeKalpi = () => {
               <strong>{person.הצביע ? "✅ הצביע" : "❌ לא הצביע"}</strong>
             </p>
             <button
-              onClick={() => toggleVote(person.id, person.הצביע)}
+              onClick={() => toggleVote(person.id, person.הצביע,person.תעודת_זהות)}
               style={{ fontSize: "16px", marginBottom: "10px" }}
             >
               שנה הצבעה
