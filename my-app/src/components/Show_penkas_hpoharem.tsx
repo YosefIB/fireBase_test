@@ -1,15 +1,8 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
+import {Person} from "../model/Person"
 
-type Person = {
-  id: string;
-  אב?: string;
-  פרטי?: string;
-  משפחה?: string;
-  תעודת_זהות?: string;
-  הצביע?: boolean;
-};
 
 const Show_penkas_hpoharem = () => {
   const [people, setPeople] = useState<Person[]>([]);
