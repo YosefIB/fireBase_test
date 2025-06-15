@@ -51,13 +51,9 @@ const AovdeKalpi = () => {
       setTotalVotes(list.length);
     };
 
-    // הפעלת fetchData כל שנייה
-    const interval = setInterval(() => {
-      fetchData();
-    }, 1000);
-
-    // ניקוי הטיימר כשמרכיב מתפרק
-    return () => clearInterval(interval);
+    fetchData().catch((error) => {
+      console.error("שגיאה בטעינת הנתונים:", error);
+    });
   }, []);
 
   return (
