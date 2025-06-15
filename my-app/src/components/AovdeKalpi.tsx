@@ -1,15 +1,7 @@
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
-
-type Person = {
-  id: string;
-  אב?: string;
-  פרטי?: string;
-  משפחה?: string;
-  תעודת_זהות?: string;
-  הצביע?: boolean;
-};
+import { Person } from "../model/Person";
 
 const AovdeKalpi = () => {
   const [allPeople, setAllPeople] = useState<Person[]>([]);
@@ -19,27 +11,27 @@ const AovdeKalpi = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value.toLowerCase();
     const filteredPeople = allPeople.filter((person) =>
-      person.תעודת_זהות?.toLowerCase().includes(searchTerm)
+      person.id_person?.toLowerCase().includes(searchTerm)
     );
     setPeople(filteredPeople);
   };
 
-  const toggleVote = async (personId: string, currentVote?: boolean, תז?:string) => {
+  const toggleVote = async (personId: string, currentVote?: boolean) => {
     const newVote = !currentVote;
     const personRef = doc(db, "Penkas_ktan_lpdekot", personId);
 
     try {
-      await updateDoc(personRef, { הצביע: newVote });
+      await updateDoc(personRef, { vote: newVote });
 
       // עדכון ב-people וב-allPeople
       setAllPeople((prev) =>
         prev.map((p) =>
-          p.id === personId ? { ...p, הצביע: newVote } : p
+          p.id === personId ? { ...p, vote: newVote } : p
         )
       );
       setPeople((prev) =>
         prev.map((p) =>
-          p.id === personId ? { ...p, הצביע: newVote } : p
+          p.id === personId ? { ...p, vote: newVote } : p
         )
       );
     } catch (error) {
@@ -73,16 +65,17 @@ const AovdeKalpi = () => {
       <ul>
         {people.map((person) => (
           <li key={person.id}>
-            <p style={{ fontSize: "30px" }}>
-              {person.פרטי} {person.אב} {person.משפחה} ת.ז: {person.תעודת_זהות}{" "}
-              <strong>{person.הצביע ? "✅ הצביע" : "❌ לא הצביע"}</strong>
-            </p>
+            <p style={{ fontSize: "15px" }}>
+              {person.first_name} {person.father_name} {person.family_name} ת.ז: {person.id_person}{" "}
+           </p>
             <button
-              onClick={() => toggleVote(person.id, person.הצביע,person.תעודת_זהות)}
-              style={{ fontSize: "16px", marginBottom: "10px" }}
+              onClick={() => toggleVote(person.id, person.vote)}
+              style={{ fontSize: "16px", marginBottom: "10px", marginRight: "30px" }}
             >
               שנה הצבעה
             </button>
+            <strong>{person.vote? "✅ הצביע" : "❌ לא הצביע"}</strong>
+             <p>-------------------------------------------------</p>
           </li>
         ))}
       </ul>

@@ -2,9 +2,9 @@
 
 export type Person = {
   id: string;
-  אב?: string;
-  פרטי?: string;
-  משפחה?: string;
-  תעודת_זהות?: string;
-  הצביע?: boolean;
+  father_name?: string;
+  first_name?: string;
+  family_name?: string;
+  id_person?: string;
+  vote?: boolean;
 };

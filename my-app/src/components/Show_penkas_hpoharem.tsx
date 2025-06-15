@@ -27,7 +27,7 @@ const Show_penkas_hpoharem = () => {
     <ul>
       {people.map((person) => (
         <li key={person.id}>
-          <p style={{fontSize:"30px"}}> {person.פרטי} {person.אב} {person.משפחה} ת.ז: {person.תעודת_זהות}</p>
+          <p style={{fontSize:"20px"}}> {person.first_name} {person.father_name} {person.family_name} ת.ז: {person.id_person}</p>
         </li>
       ))}
     </ul>
