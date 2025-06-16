@@ -13,6 +13,7 @@ import UploadFile from "./components/UploadFile";
 import Voted from "./components/Voted";
 import Main from "./components/Main";
 import AovdeKalpi from "./components/AovdeKalpi";
+import NotVoted from "./components/NotVoted";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
                 <Nav.Link href="/upload-file">העלאת קובץ</Nav.Link>
                 <Nav.Link href="/voted">אנשים שהצביעו</Nav.Link>
                 <Nav.Link href="/AovdeKalpi">עובדי קלפי</Nav.Link>
+                <Nav.Link href="/Notvoted">אנשים שלא הצביעו</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -44,6 +46,7 @@ function App() {
             <Route path="/penkas" element={<Show_penkas_hpoharem />} />
             <Route path="/upload-file" element={<UploadFile />} />
             <Route path="/voted" element={<Voted />} />
+            <Route path="/Notvoted" element={<NotVoted />} />
             <Route path="/AovdeKalpi" element={<AovdeKalpi />} />
             <Route path="/" element={<Main />} />
 

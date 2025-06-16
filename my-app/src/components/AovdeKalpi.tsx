@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import { Person } from "../model/Person";
@@ -22,6 +22,7 @@ const AovdeKalpi = () => {
 
     try {
       await updateDoc(personRef, { vote: newVote });
+      await updateDoc(personRef, { voted_at: serverTimestamp() });
 
       // עדכון ב-people וב-allPeople
       setAllPeople((prev) =>
@@ -40,20 +41,22 @@ const AovdeKalpi = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const snapshot = await getDocs(collection(db, "Penkas_ktan_lpdekot"));
-      const list = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as Omit<Person, "id">),
-      })) as Person[];
-      setAllPeople(list);
-      setPeople(list);
-      setTotalVotes(list.length);
-    };
-
-    fetchData().catch((error) => {
-      console.error("שגיאה בטעינת הנתונים:", error);
-    });
+    const unsubscribe = onSnapshot(
+      collection(db, "Penkas_ktan_lpdekot"),
+      (snapshot) => {
+        const list: Person[] = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Person, "id">),
+        }));
+        setAllPeople(list);
+        setPeople(list);
+        setTotalVotes(list.length);
+      },
+      (error) => {
+        console.error("שגיאה בהאזנה לנתונים:", error);
+      } 
+    );
+    return () => unsubscribe();
   }, []);
 
   return (

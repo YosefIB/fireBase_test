@@ -3,7 +3,7 @@ import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import { Person } from "../model/Person";
 
-const Voted = () => {
+const NotVoted = () => {
   const [people, setPeople] = useState<PersonWithTime[]>([]);
   const [totalVotes, setTotalVotes] = useState<number>(0);
   const [totalPeople, setTotalPeople] = useState<number>(0);
@@ -23,7 +23,7 @@ const Voted = () => {
 
         setTotalPeople(list.length);
 
-        const votedPeople = list.filter((person) => person.vote === true);
+        const votedPeople = list.filter((person) => person.vote === false);
         setPeople(votedPeople);
         setTotalVotes(votedPeople.length);
       },
@@ -37,10 +37,10 @@ const Voted = () => {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", background:"yellow"}}>אנשים שהצביעו</h1>
+      <h1 style={{ textAlign: "center", background:"red" }}>אנשים שלא שהצביעו</h1>
       <p>בעלי זכות בחירה {totalPeople}</p>
-      <p>כמה עוד לא הצביעו {totalPeople - totalVotes}</p>
-      <p>עד כה הצביעו {totalVotes}</p>
+      <p>כמה עוד לא הצביעו {totalVotes}</p>
+      <p>עד כה הצביעו {totalPeople - totalVotes}</p>
 
 <ul style={{
   listStyleType: "none",
@@ -51,11 +51,6 @@ const Voted = () => {
   gap: "12px"
 }}>
   {people.map((person, index) => {
-    const voteTime = person.voted_at?.toDate().toLocaleTimeString("he-IL", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
 
     return (
       <li
@@ -97,11 +92,6 @@ const Voted = () => {
 
         <div style={{ fontSize: "16px", color: "#555" }}>
           ת.ז: {person.id_person}
-          {voteTime && (
-            <span style={{ display: "block", marginTop: "4px", color: "#28a745", fontWeight: "500" }}>
-              הצביע בשעה: {voteTime}
-            </span>
-          )}
         </div>
       </li>
     );
@@ -113,4 +103,4 @@ const Voted = () => {
   );
 };
 
-export default Voted;
+export default NotVoted;
