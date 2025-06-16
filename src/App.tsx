@@ -14,30 +14,30 @@ import Voted from "./components/Voted";
 import Main from "./components/Main";
 import AovdeKalpi from "./components/AovdeKalpi";
 import NotVoted from "./components/NotVoted";
-
+import { Link } from "react-router-dom";
 function App() {
 
 
   return (
     <Router>
       <div className="App">
-        <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
-          <Container>
-            <Navbar.Brand href="/">מערכת יוסף</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="/clients">רשימת לקוחות</Nav.Link>
-                <Nav.Link href="/add-client">הוספת לקוח</Nav.Link>
-                <Nav.Link href="/penkas">פנקס הבוחרים</Nav.Link>
-                <Nav.Link href="/upload-file">העלאת קובץ</Nav.Link>
-                <Nav.Link href="/voted">אנשים שהצביעו</Nav.Link>
-                <Nav.Link href="/AovdeKalpi">עובדי קלפי</Nav.Link>
-                <Nav.Link href="/Notvoted">אנשים שלא הצביעו</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+<Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+  <Container>
+    <Navbar.Brand as={Link} to="/">מערכת יוסף</Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="me-auto">
+        <Nav.Link as={Link} to="/clients">רשימת לקוחות</Nav.Link>
+        <Nav.Link as={Link} to="/add-client">הוספת לקוח</Nav.Link>
+        <Nav.Link as={Link} to="/penkas">פנקס הבוחרים</Nav.Link>
+        <Nav.Link as={Link} to="/upload-file">העלאת קובץ</Nav.Link>
+        <Nav.Link as={Link} to="/voted">אנשים שהצביעו</Nav.Link>
+        <Nav.Link as={Link} to="/AovdeKalpi">עובדי קלפי</Nav.Link>
+        <Nav.Link as={Link} to="/Notvoted">אנשים שלא הצביעו</Nav.Link>
+      </Nav>
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
 
         <Container>
           <Routes>
