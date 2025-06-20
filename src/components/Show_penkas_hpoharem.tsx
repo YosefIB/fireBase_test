@@ -7,17 +7,20 @@ const Show_penkas_hpoharem = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [totalVotes, setTotalVotes] = useState<number>(0);
   const [allPeople, setAllPeople] = useState<Person[]>([]);
+  const [searchId, setSearchId] = useState("");
+  const [searchFirstName, setSearchFirstName] = useState("");
+  const [searchFatherName, setSearchFatherName] = useState("");
 
-const handleSearch = (searchTerm: string, field: keyof Person) => {
-  const filtered = allPeople.filter((person) => {
-    const value = person[field];
-    if (typeof value === "string") {
-      return value.toLowerCase().includes(searchTerm);
-    }
-    return false;
-  });
-  setPeople(filtered);
-};
+  const handleSearch = (searchTerm: string, field: keyof Person) => {
+    const filtered = allPeople.filter((person) => {
+      const value = person[field];
+      if (typeof value === "string") {
+        return value.toLowerCase().includes(searchTerm);
+      }
+      return false;
+    });
+    setPeople(filtered);
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -39,6 +42,22 @@ const handleSearch = (searchTerm: string, field: keyof Person) => {
     return () => unsubscribe(); // מנקה האזנה כשעוזבים את הקומפוננטה
   }, []);
 
+  useEffect(() => {
+    const filtered = allPeople.filter((person) => {
+      const idMatch = person.id_person?.toLowerCase().includes(searchId);
+      const firstNameMatch = person.first_name
+        ?.toLowerCase()
+        .includes(searchFirstName);
+      const fatherNameMatch = person.father_name
+        ?.toLowerCase()
+        .includes(searchFatherName);
+
+      return idMatch && firstNameMatch && fatherNameMatch;
+    });
+
+    setPeople(filtered);
+  }, [searchId, searchFirstName, searchFatherName, allPeople]);
+
   return (
     <>
       <h1 style={{ textAlign: "center" }}>פנקס הבוחרים</h1>
@@ -49,7 +68,7 @@ const handleSearch = (searchTerm: string, field: keyof Person) => {
         <input
           type="text"
           placeholder="חפש לפי תעודת זהות"
-          onChange={(e) => handleSearch(e.target.value.toLowerCase(), "id_person")}
+          onChange={(e) => setSearchId(e.target.value.toLowerCase())}
           style={{ width: "300px", margin: "10px auto", display: "block" }}
         />
       </label>
@@ -59,7 +78,7 @@ const handleSearch = (searchTerm: string, field: keyof Person) => {
         <input
           type="text"
           placeholder="חפש לפי שם פרטי"
-          onChange={(e) => handleSearch(e.target.value.toLowerCase(), "first_name")}
+          onChange={(e) => setSearchFirstName(e.target.value.toLowerCase())}
           style={{ width: "300px", margin: "10px auto", display: "block" }}
         />
       </label>
@@ -69,7 +88,7 @@ const handleSearch = (searchTerm: string, field: keyof Person) => {
         <input
           type="text"
           placeholder="חפש לפי שם אבא"
-          onChange={(e) => handleSearch(e.target.value.toLowerCase(), "father_name")}
+          onChange={(e) => setSearchFatherName(e.target.value.toLowerCase())}
           style={{ width: "300px", margin: "10px auto", display: "block" }}
         />
       </label>
@@ -111,7 +130,7 @@ const handleSearch = (searchTerm: string, field: keyof Person) => {
                   backgroundColor: "#007bff",
                   color: "#fff",
                   borderRadius: "50%",
-                  width: "28px",
+                  width: "48px",
                   height: "28px",
                   display: "flex",
                   justifyContent: "center",
@@ -121,11 +140,19 @@ const handleSearch = (searchTerm: string, field: keyof Person) => {
               >
                 {index + 1}
               </span>
-              <span style={{ flexGrow: 1, textAlign: "center", marginRight: "12px" }}>
+              <span
+                style={{
+                  flexGrow: 1,
+                  textAlign: "center",
+                  marginRight: "12px",
+                }}
+              >
                 {person.first_name} {person.father_name} {person.family_name}
               </span>
             </div>
-            <div style={{ fontSize: "16px", color: "#555", textAlign: "center" }}>
+            <div
+              style={{ fontSize: "16px", color: "#555", textAlign: "center" }}
+            >
               ת.ז: {person.id_person}{" "}
               <strong style={{ marginRight: "15px" }}>
                 {person.vote ? "✅ הצביע" : "❌ לא הצביע"}

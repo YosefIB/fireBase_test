@@ -51,11 +51,14 @@ const Voted = () => {
   gap: "12px"
 }}>
   {people.map((person, index) => {
-    const voteTime = person.voted_at?.toDate().toLocaleTimeString("he-IL", {
+const voteTime = (person.voted_at instanceof Timestamp)
+  ? person.voted_at.toDate().toLocaleTimeString("he-IL", {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-    });
+    })
+  : null;
+
 
     return (
       <li

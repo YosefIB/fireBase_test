@@ -1,7 +1,9 @@
-import { collection, getDocs, doc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
+import { collection, doc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import { Person } from "../model/Person";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AovdeKalpi = () => {
   const [allPeople, setAllPeople] = useState<Person[]>([]);
@@ -24,7 +26,18 @@ const AovdeKalpi = () => {
       await updateDoc(personRef, { vote: newVote });
       await updateDoc(personRef, { voted_at: serverTimestamp() });
 
-      // עדכון ב-people וב-allPeople
+      toast.success(`✅ ההצבעה של ${newVote ? "הוספה" : "הוסרה"} בהצלחה!`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      // עדכון המערכים
       setAllPeople((prev) =>
         prev.map((p) =>
           p.id === personId ? { ...p, vote: newVote } : p
@@ -54,7 +67,7 @@ const AovdeKalpi = () => {
       },
       (error) => {
         console.error("שגיאה בהאזנה לנתונים:", error);
-      } 
+      }
     );
     return () => unsubscribe();
   }, []);
@@ -62,6 +75,10 @@ const AovdeKalpi = () => {
   return (
     <>
       <h1 style={{ textAlign: "center" }}>עובדי קלפי</h1>
+
+      {/* Toast popup */}
+      <ToastContainer />
+
       <p>חפש לפי ת.ז של הבוחר</p>
       <input
         type="text"
