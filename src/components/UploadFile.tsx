@@ -1,11 +1,12 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useRef } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import * as XLSX from "xlsx";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase"; // הנתיב לקובץ firebase.js
 
 const UploadFile: React.FC = () => {
-      // הוספת פונקציה להעלאת קובץ אקסל
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
@@ -21,14 +22,11 @@ const UploadFile: React.FC = () => {
         return;
       }
 
-      // המרת התוכן של הקובץ לאובייקט JSON
       const data = new Uint8Array(result as ArrayBuffer);
       const workbook = XLSX.read(data, { type: "array" });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-      console.log(jsonData); // כאן תראה את כל הנתונים מה-Excel
-      // שלח ל-Firebase בשלב הבא
+      console.log(jsonData);
 
       uploadToFirebase(jsonData);
     };
@@ -37,24 +35,39 @@ const UploadFile: React.FC = () => {
   };
 
   const uploadToFirebase = async (data: any) => {
-    // Penkas_hpoharem_2018
-    const collectionRef = collection(db, "Penkas_ktan_lpdekot"); // שנה את השם של האוסף לפי הצורך
+    const collectionRef = collection(db, "Penkas_ktan_lpdekot");
     for (const item of data) {
       await addDoc(collectionRef, item);
     }
   };
+
+  const handlePasswordAndUpload = () => {
+    const password = prompt("את צריך לדעת את הסיסמה חביבי - אי אפשר לעלות סתם כך קובץ");
+    if (password === "777") {
+      fileInputRef.current?.click();
+    } else {
+      alert("סיסמה שגויה!");
+    }
+  };
+
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
         <Col xs={12} md={8} className="text-center">
           <h1 className="display-4">שלום</h1>
           <p>תעלה את פנקס הבוחרים הכי עדכני</p>
+
+          <button onClick={handlePasswordAndUpload} className="btn btn-primary mt-3">
+            העלאת קובץ
+          </button>
+
           <input
             type="file"
             accept=".xlsx, .xls, .csv"
             onChange={handleFileUpload}
-            className="form-control mt-3"
-            />
+            ref={fileInputRef}
+            style={{ display: "none" }}
+          />
         </Col>
       </Row>
     </Container>

@@ -7,4 +7,5 @@ export type Person = {
   family_name?: string;
   id_person?: string;
   vote?: boolean;
+  family?: string;
 };

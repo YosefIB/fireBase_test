@@ -10,6 +10,7 @@ const Show_penkas_hpoharem = () => {
   const [searchId, setSearchId] = useState("");
   const [searchFirstName, setSearchFirstName] = useState("");
   const [searchFatherName, setSearchFatherName] = useState("");
+  const [searchFamilyName, setSearchFamilyName] = useState("");
 
   const handleSearch = (searchTerm: string, field: keyof Person) => {
     const filtered = allPeople.filter((person) => {
@@ -51,47 +52,72 @@ const Show_penkas_hpoharem = () => {
       const fatherNameMatch = person.father_name
         ?.toLowerCase()
         .includes(searchFatherName);
+      const familyNameMatch = person.family_name
+        ?.toLowerCase() 
+        .includes(searchFamilyName);
 
-      return idMatch && firstNameMatch && fatherNameMatch;
+      return idMatch && firstNameMatch && fatherNameMatch && familyNameMatch;
     });
 
     setPeople(filtered);
-  }, [searchId, searchFirstName, searchFatherName, allPeople]);
+  }, [searchId, searchFirstName, searchFatherName,searchFamilyName, allPeople]);
 
   return (
     <>
       <h1 style={{ textAlign: "center" }}>פנקס הבוחרים</h1>
       <p>מספר הבוחרים בפנקס: {totalVotes}</p>
 
-      <label>
-        חפש לפי ת.ז:
-        <input
-          type="text"
-          placeholder="חפש לפי תעודת זהות"
-          onChange={(e) => setSearchId(e.target.value.toLowerCase())}
-          style={{ width: "300px", margin: "10px auto", display: "block" }}
-        />
-      </label>
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "20px",
+    marginBottom: "20px",
+  }}
+  dir="rtl"
+>
+  <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <input
+      type="text"
+      placeholder="חפש לפי תעודת זהות"
+      onChange={(e) => setSearchId(e.target.value.toLowerCase())}
+      style={{ width: "200px" }}
+    />
+    לפי ת.ז
+  </label>
 
-      <label>
-        חפש לפי שם פרטי:
-        <input
-          type="text"
-          placeholder="חפש לפי שם פרטי"
-          onChange={(e) => setSearchFirstName(e.target.value.toLowerCase())}
-          style={{ width: "300px", margin: "10px auto", display: "block" }}
-        />
-      </label>
+  <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <input
+      type="text"
+      placeholder="חפש לפי שם פרטי"
+      onChange={(e) => setSearchFirstName(e.target.value.toLowerCase())}
+      style={{ width: "200px" }}
+    />
+    שם פרטי
+  </label>
 
-      <label>
-        חפש לפי שם אבא:
-        <input
-          type="text"
-          placeholder="חפש לפי שם אבא"
-          onChange={(e) => setSearchFatherName(e.target.value.toLowerCase())}
-          style={{ width: "300px", margin: "10px auto", display: "block" }}
-        />
-      </label>
+  <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <input
+      type="text"
+      placeholder="חפש לפי שם אבא"
+      onChange={(e) => setSearchFatherName(e.target.value.toLowerCase())}
+      style={{ width: "200px" }}
+    />
+    שם אבא
+  </label>
+    <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <input
+      type="text"
+      placeholder="חפש לי שם משפחה"
+      onChange={(e) => setSearchFamilyName(e.target.value.toLowerCase())}
+      style={{ width: "200px" }}
+    />
+    שם משפחה
+  </label>
+</div>
+
 
       <ul
         style={{

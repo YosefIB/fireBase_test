@@ -7,6 +7,7 @@ const Voted = () => {
   const [people, setPeople] = useState<PersonWithTime[]>([]);
   const [totalVotes, setTotalVotes] = useState<number>(0);
   const [totalPeople, setTotalPeople] = useState<number>(0);
+  const [ahoze_hatsba, setAhoze_hatsba] = useState<string>("");
 
   interface PersonWithTime extends Person {
     voted_at?: Timestamp; // שדה זמן מה-DB
@@ -26,6 +27,7 @@ const Voted = () => {
         const votedPeople = list.filter((person) => person.vote === true);
         setPeople(votedPeople);
         setTotalVotes(votedPeople.length);
+        
       },
       (error) => {
         console.error("Error listening to data:", error);
@@ -41,6 +43,7 @@ const Voted = () => {
       <p>בעלי זכות בחירה {totalPeople}</p>
       <p>כמה עוד לא הצביעו {totalPeople - totalVotes}</p>
       <p>עד כה הצביעו {totalVotes}</p>
+      <p>אחוזי הצבעה {((totalVotes/totalPeople)*100).toFixed(2)}%</p>
 
 <ul style={{
   listStyleType: "none",

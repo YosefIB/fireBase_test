@@ -15,6 +15,7 @@ import Main from "./components/Main";
 import AovdeKalpi from "./components/AovdeKalpi";
 import NotVoted from "./components/NotVoted";
 import { Link } from "react-router-dom";
+import AllInformatiuon from "./components/AllInformatiuon";
 function App() {
 
 
@@ -34,6 +35,7 @@ function App() {
         <Nav.Link as={Link} to="/voted">אנשים שהצביעו</Nav.Link>
         <Nav.Link as={Link} to="/AovdeKalpi">עובדי קלפי</Nav.Link>
         <Nav.Link as={Link} to="/Notvoted">אנשים שלא הצביעו</Nav.Link>
+        <Nav.Link as={Link} to="/allInformation">כל המידע</Nav.Link>
       </Nav>
     </Navbar.Collapse>
   </Container>
@@ -48,6 +50,7 @@ function App() {
             <Route path="/voted" element={<Voted />} />
             <Route path="/Notvoted" element={<NotVoted />} />
             <Route path="/AovdeKalpi" element={<AovdeKalpi />} />
+            <Route path="/allInformation" element={<AllInformatiuon />} />
             <Route path="/" element={<Main />} />
 
           </Routes>
